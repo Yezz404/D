@@ -1,208 +1,852 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ChatGPT 導出閱讀器</title>
-  <style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ChatGPT Export Viewer — Yeze & Baiguan Edition</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; font-family: 'Inter', sans-serif;
+    background: #fff0f6; color: #4b2a38;
+    display: flex; height: 100vh; overflow: hidden;
+  }
+
+  /* Dark mode */
+  body.dark {
+    background: #1e1e2f;
+    color: #e0c8d5;
+  }
+
+  /* Layout */
+  #app {
+    display: flex; flex: 1;
+    height: 100vh;
+  }
+  aside {
+    width: 280px;
+    background: #fce8f3;
+    border-right: 1px solid #e8bfd6;
+    display: flex; flex-direction: column;
+  }
+  body.dark aside {
+    background: #2b2840;
+    border-color: #4a4271;
+  }
+  header#sidebar-header {
+    padding: 16px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #a81e61;
+    border-bottom: 1px solid #e8bfd6;
+    user-select: none;
+  }
+  body.dark header#sidebar-header {
+    color: #ec9fcb;
+    border-color: #4a4271;
+  }
+
+  /* Folder picker */
+  #folder-input-label {
+    background: #a81e61;
+    color: white;
+    padding: 10px 16px;
+    margin: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+  }
+  #folder-input-label:hover {
+    background: #8f1952;
+  }
+  #folder-input {
+    display: none;
+  }
+
+  /* Search bar */
+  #search-container {
+    padding: 8px 16px;
+    border-bottom: 1px solid #e8bfd6;
+  }
+  body.dark #search-container {
+    border-color: #4a4271;
+  }
+  #search-input {
+    width: 100%;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #e8bfd6;
+    font-size: 0.9rem;
+    background: #f9d8ec;
+    color: #4b2a38;
+  }
+  body.dark #search-input {
+    background: #443f5e;
+    border-color: #6e5a8a;
+    color: #e0c8d5;
+  }
+
+  /* Conversation list */
+  #conversation-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+  }
+  #conversation-list .conv-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+    transition: background-color 0.3s, border-color 0.3s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+  }
+  #conversation-list .conv-item.selected {
+    background-color: #f9b7da;
+    border-left-color: #a81e61;
+    color: #5a1030;
+    font-weight: 700;
+  }
+  body.dark #conversation-list .conv-item.selected {
+    background-color: #65346b;
+    border-left-color: #ec9fcb;
+    color: #f9d8ec;
+  }
+  #conversation-list .conv-item:hover:not(.selected) {
+    background-color: #fbd2e5;
+  }
+  body.dark #conversation-list .conv-item:hover:not(.selected) {
+    background-color: #4b3a64;
+  }
+
+  /* Main content */
+  main#chat-panel {
+    flex: 1; display: flex; flex-direction: column;
+    background: #fff5f9;
+    overflow: hidden;
+  }
+  body.dark main#chat-panel {
+    background: #26233d;
+  }
+  header#chat-header {
+    padding: 16px;
+    border-bottom: 1px solid #e8bfd6;
+    font-weight: 600;
+    color: #a81e61;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  body.dark header#chat-header {
+    border-color: #4a4271;
+    color: #ec9fcb;
+  }
+  #chat-header .meta {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #7a3a5a;
+  }
+  body.dark #chat-header .meta {
+    color: #d4a6c6;
+  }
+
+  /* Chat content */
+  #chat-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Message bubbles */
+  .message {
+    max-width: 75%;
+    padding: 12px 18px;
+    border-radius: 20px;
+    line-height: 1.4;
+    font-size: 0.9rem;
+    position: relative;
+    word-break: break-word;
+  }
+  .message .timestamp {
+    font-size: 0.75rem;
+    opacity: 0.5;
+    margin-bottom: 6px;
+    user-select: text;
+    font-family: monospace;
+  }
+
+  /* user bubble */
+  .message.user {
+    align-self: flex-end;
+    background: #ffbad2;
+    color: #5a1030;
+    border-bottom-right-radius: 4px;
+  }
+  body.dark .message.user {
+    background: #d1588e;
+    color: #f9d8ec;
+  }
+
+  /* assistant bubble */
+  .message.assistant {
+    align-self: flex-start;
+    background: #f3d6e7;
+    color: #6a2754;
+    border-bottom-left-radius: 4px;
+  }
+  body.dark .message.assistant {
+    background: #603964;
+    color: #e0c8d5;
+  }
+
+  /* Markdown styling inside messages */
+  .message-content {
+    margin-top: 2px;
+  }
+  .message-content p {
+    margin: 0 0 8px 0;
+  }
+  .message-content code {
+    background: #f1c1db;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: monospace;
+  }
+  body.dark .message-content code {
+    background: #7e5388;
+  }
+  .message-content pre {
+    background: #f8cce0;
+    padding: 8px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: monospace;
+    margin-bottom: 8px;
+  }
+  body.dark .message-content pre {
+    background: #7a4f8f;
+  }
+  .message-content blockquote {
+    border-left: 4px solid #f9a8c7;
+    padding-left: 12px;
+    color: #a03e6a;
+    font-style: italic;
+    margin: 0 0 8px 0;
+  }
+  body.dark .message-content blockquote {
+    border-left-color: #d36aa8;
+    color: #ec9fcb;
+  }
+  .message-content a {
+    color: #a81e61;
+    text-decoration: underline;
+  }
+  body.dark .message-content a {
+    color: #ec9fcb;
+  }
+
+  /* Attachments container */
+  .attachments {
+    margin-top: 8px;
+  }
+  .attachment {
+    margin-bottom: 8px;
+  }
+  .attachment img {
+    max-width: 250px;
+    max-height: 150px;
+    border-radius: 12px;
+    box-shadow: 0 0 8px rgba(168, 30, 97, 0.3);
+    cursor: zoom-in;
+    transition: transform 0.15s ease;
+  }
+  .attachment img:hover {
+    transform: scale(1.05);
+  }
+  .attachment a.file-link {
+    color: #a81e61;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+  }
+  body.dark .attachment a.file-link {
+    color: #ec9fcb;
+  }
+
+  /* Scrollbar styles */
+  #conversation-list::-webkit-scrollbar,
+  #chat-content::-webkit-scrollbar {
+    width: 8px;
+  }
+  #conversation-list::-webkit-scrollbar-thumb,
+  #chat-content::-webkit-scrollbar-thumb {
+    background: #a81e61aa;
+    border-radius: 4px;
+  }
+  body.dark #conversation-list::-webkit-scrollbar-thumb,
+  body.dark #chat-content::-webkit-scrollbar-thumb {
+    background: #ec9fcbaa;
+  }
+
+  /* Buttons */
+  button {
+    background: #a81e61;
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
+  }
+  button:hover:not(:disabled) {
+    background: #8a174d;
+  }
+  button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  /* Toolbar under header */
+  #toolbar {
+    padding: 8px 16px;
+    background: #fce8f3;
+    border-bottom: 1px solid #e8bfd6;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  body.dark #toolbar {
+    background: #2b2840;
+    border-color: #4a4271;
+  }
+
+  /* Export checkboxes */
+  #export-list {
+    max-height: 100px;
+    overflow-y: auto;
+    margin-top: 8px;
+    border: 1px solid #e8bfd6;
+    border-radius: 8px;
+    padding: 6px 8px;
+    background: #fff0f6;
+  }
+  body.dark #export-list {
+    background: #3a3361;
+    border-color: #6e5a8a;
+  }
+  #export-list label {
+    display: block;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: 4px;
+  }
+
+  /* Back to top button */
+  #back-to-top {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: #a81e61;
+    color: white;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 24px;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 2px 8px #a81e61aa;
+    transition: background-color 0.2s ease;
+    display: none;
+    z-index: 99;
+  }
+  #back-to-top:hover {
+    background: #8a174d;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    aside {
+      width: 220px;
+    }
+    main#chat-panel {
+      font-size: 0.85rem;
+    }
+  }
+  @media (max-width: 480px) {
     body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      display: flex;
-      height: 100vh;
-      background: #fef6fb;
-      color: #333;
-    }
-    #sidebar {
-      width: 280px;
-      background: #ffe6f0;
-      overflow-y: auto;
-      padding: 10px;
-      border-right: 1px solid #ccc;
-    }
-    #main {
-      flex: 1;
-      display: flex;
       flex-direction: column;
     }
-    #chat {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-    }
-    .conversation-item {
-      padding: 10px;
-      margin: 5px 0;
-      background: #fff;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .conversation-item:hover {
-      background: #f0d7e6;
-    }
-    .message {
-      margin-bottom: 20px;
-    }
-    .message .timestamp {
-      font-size: 12px;
-      color: #666;
-    }
-    .message.user {
-      background: #fff0f5;
-      padding: 10px;
-      border-radius: 8px;
-      margin-right: auto;
-      max-width: 80%;
-    }
-    .message.assistant {
-      background: #f0f0ff;
-      padding: 10px;
-      border-radius: 8px;
-      margin-left: auto;
-      max-width: 80%;
-    }
-    .controls {
-      padding: 10px;
-      background: #fff;
-      border-top: 1px solid #ccc;
-    }
-    button {
-      padding: 6px 12px;
-      margin-right: 10px;
-      border: none;
-      border-radius: 6px;
-      background: #ff99cc;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #ff66aa;
-    }
-    input[type="file"] {
-      margin-bottom: 10px;
-    }
-    img.attachment {
-      max-width: 100%;
-      border-radius: 6px;
-      margin-bottom: 8px;
-    }
-    pre code {
-      background: #eee;
-      padding: 4px;
-      display: block;
+    aside {
+      width: 100%;
+      height: 160px;
+      border-right: none;
+      border-bottom: 1px solid #e8bfd6;
       overflow-x: auto;
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      padding: 8px;
     }
-  </style>
+    #conversation-list {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      padding: 0;
+    }
+    #conversation-list .conv-item {
+      flex: 0 0 auto;
+      border-left: none;
+      border-bottom: 4px solid transparent;
+      padding: 8px 12px;
+      white-space: normal;
+      max-width: 140px;
+      border-radius: 8px 8px 0 0;
+    }
+    #conversation-list .conv-item.selected {
+      border-bottom-color: #a81e61;
+      background-color: #f9b7da;
+      color: #5a1030;
+    }
+    body.dark aside {
+      border-color: #4a4271;
+    }
+    body.dark #conversation-list .conv-item.selected {
+      background-color: #65346b;
+      color: #f9d8ec;
+    }
+  }
+</style>
 </head>
 <body>
-
-  <div id="sidebar">
-    <h3>聊天視窗列表</h3>
-    <input type="file" id="folderInput" webkitdirectory directory />
-    <div id="conversationList"></div>
-  </div>
-
-  <div id="main">
-    <div id="chat">請選擇左側的聊天視窗以顯示內容。</div>
-    <div class="controls">
-      <button onclick="exportTxt()">導出此聊天 (.txt)</button>
+<div id="app">
+  <aside>
+    <header id="sidebar-header">ChatGPT Export Viewer</header>
+    <label for="folder-input" id="folder-input-label" title="Select ChatGPT export folder">
+      📂 Select ChatGPT Export Folder
+    </label>
+    <input type="file" id="folder-input" webkitdirectory directory multiple />
+    <div id="search-container" style="display:none;">
+      <input type="search" id="search-input" placeholder="Search messages..." autocomplete="off" />
     </div>
-  </div>
+    <div id="conversation-list"></div>
+  </aside>
+  <main id="chat-panel">
+    <header id="chat-header" style="display:none;">
+      <div id="chat-title">No conversation loaded</div>
+      <div class="meta" id="chat-meta"></div>
+    </header>
+    <div id="toolbar" style="display:none;">
+      <button id="export-txt-btn" disabled>Export This Chat (.txt)</button>
+      <button id="export-zip-btn" disabled>Export Selected Chats (.zip)</button>
+      <label style="margin-left:auto; user-select:none;">
+        <input type="checkbox" id="dark-mode-toggle" /> Dark Mode
+      </label>
+    </div>
+    <section id="chat-content"></section>
+  </main>
+</div>
+<button id="back-to-top" title="Back to top">↑</button>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    let conversations = []
-    let currentConversation = null
-    let fileMap = new Map()
+<!-- Marked.js for markdown -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- JSZip for zip export -->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 
-    document.getElementById('folderInput').addEventListener('change', async (e) => {
-      const files = Array.from(e.target.files)
-      const jsonFile = files.find(f => f.name === 'conversations.json')
-      if (!jsonFile) return alert("請選擇包含 conversations.json 的資料夾")
+<script>
+(() => {
+  'use strict';
 
-      // 儲存所有檔案
-      files.forEach(f => fileMap.set(f.webkitRelativePath.split('/').pop(), f))
+  // Elements
+  const folderInput = document.getElementById('folder-input');
+  const folderInputLabel = document.getElementById('folder-input-label');
+  const conversationListEl = document.getElementById('conversation-list');
+  const chatContentEl = document.getElementById('chat-content');
+  const chatHeaderEl = document.getElementById('chat-header');
+  const chatTitleEl = document.getElementById('chat-title');
+  const chatMetaEl = document.getElementById('chat-meta');
+  const exportTxtBtn = document.getElementById('export-txt-btn');
+  const exportZipBtn = document.getElementById('export-zip-btn');
+  const darkModeToggle = document.getElementById('dark-mode-toggle');
+  const toolbarEl = document.getElementById('toolbar');
+  const searchInput = document.getElementById('search-input');
+  const searchContainer = document.getElementById('search-container');
+  const backToTopBtn = document.getElementById('back-to-top');
 
-      const json = await jsonFile.text()
-      conversations = JSON.parse(json)
-      renderConversationList()
-    })
+  // State
+  let allFiles = new Map(); // Map<filename, File>
+  let conversations = [];
+  let filteredConversations = [];
+  let selectedConvIndex = null;
+  let darkMode = false;
 
-    function renderConversationList() {
-      const list = document.getElementById('conversationList')
-      list.innerHTML = ''
-      conversations.forEach((conv, i) => {
-        const item = document.createElement('div')
-        item.className = 'conversation-item'
-        item.textContent = conv.title || `聊天 ${i + 1}`
-        item.onclick = () => {
-          currentConversation = conv
-          renderChat(conv)
+  // Utilities
+  function formatTimestamp(dateStr) {
+    try {
+      const dt = new Date(dateStr);
+      if (isNaN(dt)) return '';
+      const Y = dt.getFullYear();
+      const M = ('0' + (dt.getMonth() + 1)).slice(-2);
+      const D = ('0' + dt.getDate()).slice(-2);
+      const h = ('0' + dt.getHours()).slice(-2);
+      const m = ('0' + dt.getMinutes()).slice(-2);
+      const s = ('0' + dt.getSeconds()).slice(-2);
+      return `${Y}-${M}-${D} ${h}:${m}:${s}`;
+    } catch {
+      return '';
+    }
+  }
+
+  function escapeHtml(text) {
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    return text.replace(/[&<>"']/g, m => map[m]);
+  }
+
+  // Read conversations.json from the selected folder
+  async function loadConversationsFromFiles(fileList) {
+    allFiles.clear();
+    conversations = [];
+    filteredConversations = [];
+    selectedConvIndex = null;
+    conversationListEl.innerHTML = '';
+    chatContentEl.innerHTML = '';
+    chatHeaderEl.style.display = 'none';
+    toolbarEl.style.display = 'none';
+    searchContainer.style.display = 'none';
+    exportTxtBtn.disabled = true;
+    exportZipBtn.disabled = true;
+    chatTitleEl.textContent = 'No conversation loaded';
+    chatMetaEl.textContent = '';
+
+    // Populate allFiles Map for quick access
+    for (const file of fileList) {
+      allFiles.set(file.name, file);
+    }
+    if (!allFiles.has('conversations.json')) {
+      alert('The folder does not contain conversations.json. Please select the full ChatGPT export folder.');
+      return;
+    }
+
+    // Read and parse conversations.json
+    const convFile = allFiles.get('conversations.json');
+    const text = await convFile.text();
+    try {
+      const json = JSON.parse(text);
+      if (!Array.isArray(json)) {
+        alert('Invalid conversations.json format: expected an array of conversations.');
+        return;
+      }
+      conversations = json;
+      filteredConversations = [...conversations];
+      renderConversationList();
+      if (conversations.length) {
+        selectConversation(0);
+        searchContainer.style.display = 'block';
+        toolbarEl.style.display = 'flex';
+        exportZipBtn.disabled = false;
+      }
+    } catch (e) {
+      alert('Failed to parse conversations.json: ' + e.message);
+    }
+  }
+
+  // Render conversation list in sidebar
+  function renderConversationList() {
+    conversationListEl.innerHTML = '';
+    if (!filteredConversations.length) {
+      conversationListEl.textContent = 'No conversations found.';
+      return;
+    }
+    filteredConversations.forEach((conv, idx) => {
+      // Use conv.title or fallback
+      const title = conv.title || `Conversation ${idx + 1}`;
+      const item = document.createElement('div');
+      item.className = 'conv-item';
+      if (selectedConvIndex === idx) item.classList.add('selected');
+      item.textContent = title;
+      item.title = title;
+      item.dataset.idx = idx;
+      item.onclick = () => selectConversation(idx);
+      conversationListEl.appendChild(item);
+    });
+  }
+
+  // Select and display a conversation by index
+  async function selectConversation(idx) {
+    if (idx === selectedConvIndex) return;
+    selectedConvIndex = idx;
+
+    // Update sidebar highlight
+    for (const child of conversationListEl.children) {
+      child.classList.toggle('selected', child.dataset.idx == idx);
+    }
+
+    const conv = filteredConversations[idx];
+    chatTitleEl.textContent = conv.title || `Conversation ${idx + 1}`;
+    chatHeaderEl.style.display = 'flex';
+
+    // Count user and assistant messages, total tokens (simple word count)
+    let userCount = 0;
+    let assistantCount = 0;
+    let totalTokens = 0;
+    if (Array.isArray(conv.mapping)) {
+      // mapping is for newer exports, messages in conv.mapping with message IDs
+    }
+    let messages = conv.messages || [];
+    // filter messages to user/assistant with non-empty content
+    messages = messages.filter(m => 
+      (m.role === 'user' || m.role === 'assistant') && m.content && m.content.trim() !== ''
+    );
+    userCount = messages.filter(m => m.role === 'user').length;
+    assistantCount = messages.filter(m => m.role === 'assistant').length;
+    totalTokens = messages.reduce((acc, m) => acc + m.content.split(/\s+/).length, 0);
+
+    chatMetaEl.textContent = `User msgs: ${userCount} | AI replies: ${assistantCount} | ~${totalTokens} words`;
+
+    // Render messages
+    chatContentEl.innerHTML = '';
+    for (const m of messages) {
+      const msgEl = await renderMessage(m);
+      chatContentEl.appendChild(msgEl);
+    }
+    chatContentEl.scrollTop = 0;
+    exportTxtBtn.disabled = false;
+  }
+
+  // Render a single message (including attachments if any)
+  async function renderMessage(msg) {
+    const container = document.createElement('div');
+    container.classList.add('message', msg.role);
+
+    // Timestamp (if present)
+    let ts = '';
+    if (msg.created) {
+      ts = formatTimestamp(msg.created);
+    } else if (msg.timestamp) {
+      ts = formatTimestamp(msg.timestamp);
+    } else if (msg.id) {
+      // fallback: parse from id if possible - skip for now
+    }
+    if (ts) {
+      const tsEl = document.createElement('div');
+      tsEl.className = 'timestamp';
+      tsEl.textContent = ts;
+      container.appendChild(tsEl);
+    }
+
+    // Attachments if role is user and message has attachments array
+    if (msg.role === 'user' && msg.attachments && Array.isArray(msg.attachments)) {
+      const attContainer = document.createElement('div');
+      attContainer.className = 'attachments';
+
+      for (const att of msg.attachments) {
+        // att.name & att.id used to find file <id>-<name> in folder
+        if (!att.id || !att.name) continue;
+        const fname = `${att.id}-${att.name}`;
+        if (!allFiles.has(fname)) continue;
+        const file = allFiles.get(fname);
+
+        const ext = file.name.split('.').pop().toLowerCase();
+
+        if (['png','jpg','jpeg','gif','webp','bmp','svg'].includes(ext)) {
+          // image file - render as <img>
+          const imgURL = URL.createObjectURL(file);
+          const imgEl = document.createElement('img');
+          imgEl.src = imgURL;
+          imgEl.alt = att.name;
+          imgEl.title = att.name;
+          imgEl.className = 'attachment';
+          attContainer.appendChild(imgEl);
+
+          // revoke URL when no longer needed
+          imgEl.onload = () => { URL.revokeObjectURL(imgURL); }
+        } else {
+          // non-image file - render link to download
+          const fileURL = URL.createObjectURL(file);
+          const link = document.createElement('a');
+          link.href = fileURL;
+          link.target = '_blank';
+          link.download = att.name;
+          link.textContent = `Download: ${att.name}`;
+          link.className = 'attachment file-link';
+          attContainer.appendChild(link);
         }
-        list.appendChild(item)
-      })
+      }
+      container.appendChild(attContainer);
     }
 
-    function renderChat(conv) {
-      const chatDiv = document.getElementById('chat')
-      chatDiv.innerHTML = ''
-      conv.mapping && Object.values(conv.mapping).forEach(node => {
-        const msg = node.message
-        if (!msg || !['user', 'assistant'].includes(msg.role)) return
-        if (!msg.content?.parts?.[0]) return
+    // Message content (markdown render)
+    const mdContainer = document.createElement('div');
+    mdContainer.className = 'message-content';
+    mdContainer.innerHTML = marked.parse(msg.content);
+    container.appendChild(mdContainer);
 
-        const container = document.createElement('div')
-        container.className = `message ${msg.role}`
+    return container;
+  }
 
-        const timestamp = document.createElement('div')
-        timestamp.className = 'timestamp'
-        timestamp.textContent = new Date(msg.create_time * 1000).toISOString().replace('T', ' ').substring(0, 19)
-        container.appendChild(timestamp)
+  // Export a conversation as .txt
+  async function exportConversationTxt(conv) {
+    let lines = [];
+    lines.push(`Title: ${conv.title || 'Untitled Conversation'}`);
+    lines.push('');
 
-        // 如果有附件，先顯示附件
-        if (msg.metadata?.attachments) {
-          msg.metadata.attachments.forEach(att => {
-            const fileKey = `${att.id}-${att.name}`
-            const file = Array.from(fileMap.values()).find(f => f.name === fileKey)
-            if (file && file.type.startsWith("image/")) {
-              const img = document.createElement('img')
-              img.className = 'attachment'
-              img.src = URL.createObjectURL(file)
-              container.appendChild(img)
-            }
-          })
-        }
+    const messages = (conv.messages || []).filter(m =>
+      (m.role === 'user' || m.role === 'assistant') && m.content && m.content.trim() !== ''
+    );
 
-        // 顯示文字內容（支援 markdown）
-        const contentHTML = marked.parse(msg.content.parts[0])
-        const textDiv = document.createElement('div')
-        textDiv.innerHTML = contentHTML
-        container.appendChild(textDiv)
-
-        chatDiv.appendChild(container)
-      })
+    for (const msg of messages) {
+      const ts = msg.created ? formatTimestamp(msg.created) : '';
+      const roleLabel = msg.role === 'user' ? 'User' : 'Assistant';
+      lines.push(`[${ts}] ${roleLabel}:`);
+      lines.push(msg.content.trim());
+      lines.push('');
     }
 
-    function exportTxt() {
-      if (!currentConversation) return alert('請先選擇聊天視窗')
+    return lines.join('\n');
+  }
 
-      let text = ''
-      Object.values(currentConversation.mapping).forEach(node => {
-        const msg = node.message
-        if (!msg || !['user', 'assistant'].includes(msg.role)) return
-        if (!msg.content?.parts?.[0]) return
-        const time = new Date(msg.create_time * 1000).toISOString().replace('T', ' ').substring(0, 19)
-        text += `[${time}] ${msg.role.toUpperCase()}:\n${msg.content.parts[0]}\n\n`
-      })
-
-      const blob = new Blob([text], {type: 'text/plain'})
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = (currentConversation.title || 'conversation') + '.txt'
-      a.click()
+  // Export selected conversations as zip
+  async function exportSelectedAsZip(selectedIndices) {
+    const zip = new JSZip();
+    for (const idx of selectedIndices) {
+      const conv = filteredConversations[idx];
+      const txt = await exportConversationTxt(conv);
+      // Safe filename
+      let safeName = (conv.title || `conversation_${idx+1}`).replace(/[<>:"/\\|?*]+/g, '_');
+      if (!safeName.toLowerCase().endsWith('.txt')) safeName += '.txt';
+      zip.file(safeName, txt);
     }
-  </script>
+    const content = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(content);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ChatGPT_Conversations.zip';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  // Dark mode toggle
+  function setDarkMode(enabled) {
+    darkMode = enabled;
+    if (darkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+    darkModeToggle.checked = enabled;
+  }
+
+  // Search/filter conversations by keyword in title or messages
+  function filterConversationsByKeyword(keyword) {
+    if (!keyword.trim()) {
+      filteredConversations = [...conversations];
+      renderConversationList();
+      if (selectedConvIndex !== null) selectConversation(selectedConvIndex);
+      return;
+    }
+    const kwLower = keyword.toLowerCase();
+    filteredConversations = conversations.filter(conv => {
+      if ((conv.title || '').toLowerCase().includes(kwLower)) return true;
+      if (!conv.messages) return false;
+      return conv.messages.some(m =>
+        (m.role === 'user' || m.role === 'assistant') &&
+        m.content &&
+        m.content.toLowerCase().includes(kwLower)
+      );
+    });
+    renderConversationList();
+    if (filteredConversations.length) {
+      selectConversation(0);
+    } else {
+      chatContentEl.innerHTML = '<p>No conversations matching the search keyword.</p>';
+      chatHeaderEl.style.display = 'none';
+      toolbarEl.style.display = 'none';
+      exportTxtBtn.disabled = true;
+    }
+  }
+
+  // Back to top button show/hide
+  function checkScrollForBackToTop() {
+    if (chatContentEl.scrollTop > 300) {
+      backToTopBtn.style.display = 'flex';
+    } else {
+      backToTopBtn.style.display = 'none';
+    }
+  }
+
+  // Initialization and events
+  folderInput.addEventListener('change', async (e) => {
+    if (!folderInput.files.length) return;
+    await loadConversationsFromFiles(folderInput.files);
+  });
+
+  exportTxtBtn.addEventListener('click', async () => {
+    if (selectedConvIndex === null) return;
+    const conv = filteredConversations[selectedConvIndex];
+    const txt = await exportConversationTxt(conv);
+    const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    let fname = (conv.title || `conversation_${selectedConvIndex + 1}`).replace(/[<>:"/\\|?*]+/g, '_') + '.txt';
+    a.download = fname;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  });
+
+  exportZipBtn.addEventListener('click', async () => {
+    // For simplicity, export all filtered conversations
+    if (filteredConversations.length === 0) return;
+    const indices = filteredConversations.map((_, idx) => idx);
+    await exportSelectedAsZip(indices);
+  });
+
+  darkModeToggle.addEventListener('change', (e) => {
+    setDarkMode(e.target.checked);
+  });
+
+  searchInput.addEventListener('input', (e) => {
+    filterConversationsByKeyword(e.target.value);
+  });
+
+  chatContentEl.addEventListener('scroll', () => {
+    checkScrollForBackToTop();
+  });
+
+  backToTopBtn.addEventListener('click', () => {
+    chatContentEl.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Initial dark mode
+  setDarkMode(false);
+
+  // Accessibility: make folder label keyboard accessible
+  folderInputLabel.tabIndex = 0;
+  folderInputLabel.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      folderInput.click();
+      e.preventDefault();
+    }
+  });
+})();
+</script>
 </body>
 </html>
