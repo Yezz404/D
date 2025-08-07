@@ -1,8 +1,1103 @@
-<html lang=""><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/chatlog-parser/favicon.ico"><title>chatlog_parser</title><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-DN0H4ZX8VF"></script><script>window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-DN0H4ZX8VF');</script><script defer="defer" src="/chatlog-parser/js/chunk-vendors.bc6e2596.js"></script><script defer="defer" src="/chatlog-parser/js/app.1166c7de.js"></script><link href="/chatlog-parser/css/chunk-vendors.19f233b8.css" rel="stylesheet"><link href="/chatlog-parser/css/app.66ae1ec2.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but chatlog_parser doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id="app" data-v-app=""><div class="container"><h1><i class="el-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="m174.72 855.68 135.296-45.12 23.68 11.84C388.096 849.536 448.576 864 512 864c211.84 0 384-166.784 384-352S723.84 160 512 160 128 326.784 128 512c0 69.12 24.96 139.264 70.848 199.232l22.08 28.8-46.272 115.584zm-45.248 82.56A32 32 0 0 1 89.6 896l58.368-145.92C94.72 680.32 64 596.864 64 512 64 299.904 256 96 512 96s448 203.904 448 416-192 416-448 416a461.056 461.056 0 0 1-206.912-48.384l-175.616 58.56z"></path><path fill="currentColor" d="M512 563.2a51.2 51.2 0 1 1 0-102.4 51.2 51.2 0 0 1 0 102.4m192 0a51.2 51.2 0 1 1 0-102.4 51.2 51.2 0 0 1 0 102.4m-384 0a51.2 51.2 0 1 1 0-102.4 51.2 51.2 0 0 1 0 102.4"></path></svg></i> 某种聊天记录</h1><div class="file-input-container"><label for="fileInput" class="file-input-label"><i class="el-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M160 832h704a32 32 0 1 1 0 64H160a32 32 0 1 1 0-64m384-578.304V704h-64V247.296L237.248 490.048 192 444.8 508.8 128l316.8 316.8-45.312 45.248z"></path></svg></i> 选择 JSON 文件 </label><input type="file" id="fileInput" accept=".json"><label for="txtFileInput" class="file-input-label" style="margin-left: 12px;"><i class="el-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M160 832h704a32 32 0 1 1 0 64H160a32 32 0 1 1 0-64m384-578.304V704h-64V247.296L237.248 490.048 192 444.8 508.8 128l316.8 316.8-45.312 45.248z"></path></svg></i> 上传聊天txt </label><input type="file" id="txtFileInput" accept=".txt" multiple=""><div class="option-container"><div class="el-switch"><input class="el-switch__input" type="checkbox" role="switch" aria-checked="false" aria-disabled="false" name="" true-value="true" false-value="false" id="el-id-8468-0"><span class="el-switch__label el-switch__label--left is-active"><!--v-if--><span aria-hidden="false">保持原样</span></span><span class="el-switch__core"><!--v-if--><div class="el-switch__action"><!--v-if--></div></span><span class="el-switch__label el-switch__label--right"><!--v-if--><span aria-hidden="true">半角符号</span></span></div></div></div><div class="file-list"><h2><i class="el-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M832 384H576V128H192v768h640zm-26.496-64L640 154.496V320zM160 64h480l256 256v608a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V96a32 32 0 0 1 32-32m160 448h384v64H320zm0-192h160v64H320zm0 384h384v64H320z"></path></svg></i> 聊天窗口列表</h2><div class="search-container"><div class="el-input el-input--prefix el-input--suffix"><!-- input --><!-- prepend slot --><!--v-if--><div class="el-input__wrapper" tabindex="-1"><!-- prefix slot --><span class="el-input__prefix"><span class="el-input__prefix-inner"><i class="el-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="m795.904 750.72 124.992 124.928a32 32 0 0 1-45.248 45.248L750.656 795.904a416 416 0 1 1 45.248-45.248zM480 832a352 352 0 1 0 0-704 352 352 0 0 0 0 704"></path></svg></i><!--v-if--></span></span><input class="el-input__inner" type="text" autocomplete="off" tabindex="0" placeholder="搜索聊天记录..." id="el-id-8468-1"><!-- suffix slot --><!--v-if--></div><!-- append slot --><!--v-if--></div></div><div class="file-list-content"><!----><div class="empty-state"><i class="el-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M544 864V672h128L512 480 352 672h128v192H320v-1.6c-5.376.32-10.496 1.6-16 1.6A240 240 0 0 1 64 624c0-123.136 93.12-223.488 212.608-237.248A239.808 239.808 0 0 1 512 192a239.872 239.872 0 0 1 235.456 194.752c119.488 13.76 212.48 114.112 212.48 237.248a240 240 0 0 1-240 240c-5.376 0-10.56-1.28-16-1.6v1.6z"></path></svg></i> 请上传 conversation.json 文件 以查看聊天记录 </div></div></div><!----><div class="button-container"><button disabled=""><i class="el-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path fill="currentColor" d="M160 832h704a32 32 0 1 1 0 64H160a32 32 0 1 1 0-64m384-253.696 236.288-236.352 45.248 45.248L508.8 704 192 387.2l45.248-45.248L480 584.704V128h64z"></path></svg></i> 导出选中对话 </button></div><div class="status"></div></div></div></body></html>
-   <head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/chatlog-parser/favicon.ico"><title>chatlog_parser</title><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-DN0H4ZX8VF"></script><script>window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-DN0H4ZX8VF');</script><script defer="defer" src="/chatlog-parser/js/chunk-vendors.bc6e2596.js"></script><script defer="defer" src="/chatlog-parser/js/app.1166c7de.js"></script><link href="/chatlog-parser/css/chunk-vendors.19f233b8.css" rel="stylesheet"><link href="/chatlog-parser/css/app.66ae1ec2.css" rel="stylesheet"></head> 
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天記錄查看器</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip/dist/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <style>
+        /* --- 全局與主題變數 --- */
+        :root {
+            --light-bg: #fff0f5; /* 淺粉色背景 */
+            --light-sidebar-bg: #ffffff;
+            --light-chat-bg: #ffffff;
+            --light-user-bubble: #ffe4e1; /* 霧玫瑰色 */
+            --light-assistant-bubble: #f0f8ff; /* 愛麗絲藍 */
+            --light-text-primary: #333;
+            --light-text-secondary: #777;
+            --light-border-color: #ffd2d2;
+            --light-accent-color: #ff69b4; /* 亮粉色 */
+            --light-hover-bg: #fff5f8;
+            --light-highlight-bg: #ffdd00;
+            --light-highlight-text: #000;
+
+            --dark-bg: #1e1e1e;
+            --dark-sidebar-bg: #252526;
+            --dark-chat-bg: #1e1e1e;
+            --dark-user-bubble: #2c2c2e;
+            --dark-assistant-bubble: #3a3a3c;
+            --dark-text-primary: #e0e0e0;
+            --dark-text-secondary: #a0a0a0;
+            --dark-border-color: #444;
+            --dark-accent-color: #ff80c4;
+            --dark-hover-bg: #333333;
+            --dark-highlight-bg: #ffdd00;
+            --dark-highlight-text: #000;
+            
+            --font-family: 'Segoe UI', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+        }
+
+        [data-theme="light"] {
+            --bg-color: var(--light-bg);
+            --sidebar-bg-color: var(--light-sidebar-bg);
+            --chat-bg-color: var(--light-chat-bg);
+            --user-bubble-color: var(--light-user-bubble);
+            --assistant-bubble-color: var(--light-assistant-bubble);
+            --text-primary-color: var(--light-text-primary);
+            --text-secondary-color: var(--light-text-secondary);
+            --border-color: var(--light-border-color);
+            --accent-color: var(--light-accent-color);
+            --hover-bg-color: var(--light-hover-bg);
+            --highlight-bg-color: var(--light-highlight-bg);
+            --highlight-text-color: var(--light-highlight-text);
+        }
+
+        [data-theme="dark"] {
+            --bg-color: var(--dark-bg);
+            --sidebar-bg-color: var(--dark-sidebar-bg);
+            --chat-bg-color: var(--dark-chat-bg);
+            --user-bubble-color: var(--dark-user-bubble);
+            --assistant-bubble-color: var(--dark-assistant-bubble);
+            --text-primary-color: var(--dark-text-primary);
+            --text-secondary-color: var(--dark-text-secondary);
+            --border-color: var(--dark-border-color);
+            --accent-color: var(--dark-accent-color);
+            --hover-bg-color: var(--dark-hover-bg);
+            --highlight-bg-color: var(--dark-highlight-bg);
+            --highlight-text-color: var(--dark-highlight-text);
+        }
+
+        /* --- 客製化捲軸 --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background-color: var(--border-color); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background-color: var(--accent-color); }
+
+        /* --- 基礎樣式 --- */
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            color: var(--text-primary-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* --- 側邊欄 --- */
+        #sidebar {
+            width: 320px;
+            background-color: var(--sidebar-bg-color);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .sidebar-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: var(--accent-color);
+            text-align: center;
+        }
+
+        .upload-container {
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        #folder-upload-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(255, 105, 180, 0.2);
+        }
+        #folder-upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(255, 105, 180, 0.3);
+        }
+        #folder-input { display: none; }
+
+        .sidebar-controls {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        #search-input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-primary-color);
+            box-sizing: border-box;
+        }
+
+        .sort-options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .sort-options button {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary-color);
+            padding: 5px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .sort-options button.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        #conversation-list-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 0 5px;
+        }
+
+        .conversation-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color 0.2s;
+            position: relative;
+        }
+        .conversation-item:hover { background-color: var(--hover-bg-color); }
+        .conversation-item.active { background-color: var(--light-user-bubble); }
+        [data-theme="dark"] .conversation-item.active { background-color: var(--dark-assistant-bubble); }
+
+        .conversation-item-header {
+            display: flex;
+            align-items: center;
+        }
+
+        .conversation-checkbox {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: var(--accent-color);
+        }
+
+        .conversation-title {
+            font-weight: bold;
+            font-size: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-grow: 1;
+        }
+
+        .conversation-meta {
+            font-size: 11px;
+            color: var(--text-secondary-color);
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .sidebar-footer {
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .export-buttons button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .export-buttons button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .export-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .export-options button {
+            width: 48%;
+            padding: 8px;
+            background: none;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* --- 主聊天窗口 --- */
+        #main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        #chat-header {
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        
+        .chat-header-left {
+            min-width: 0;
+        }
+
+        #current-chat-title {
+            font-size: 18px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #theme-toggle {
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        /* 搜尋框 */
+        #content-search-container {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2px 8px;
+        }
+        #content-search-input {
+            border: none;
+            background: transparent;
+            outline: none;
+            color: var(--text-primary-color);
+            width: 120px;
+        }
+        #content-search-nav button {
+            background: none; border: none; cursor: pointer; color: var(--text-secondary-color);
+        }
+        #content-search-nav button:disabled { color: #ccc; cursor: not-allowed; }
+        #content-search-matches { font-size: 12px; color: var(--text-secondary-color); min-width: 40px; text-align: center; }
+
+        #chat-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: var(--chat-bg-color);
+        }
+
+        #welcome-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+            color: var(--text-secondary-color);
+        }
+        #welcome-screen .emoji { font-size: 60px; }
+        #welcome-screen h2 { font-size: 28px; color: var(--text-primary-color); }
+
+        .message {
+            display: flex;
+            margin-bottom: 20px;
+            max-width: 90%;
+            position: relative;
+        }
+        .message.user { margin-left: auto; flex-direction: row-reverse; }
+        
+        .avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            font-size: 20px;
+            flex-shrink: 0;
+            margin: 0 10px;
+        }
+        .user .avatar { background-color: var(--light-user-bubble); }
+        .assistant .avatar { background-color: var(--light-assistant-bubble); }
+        [data-theme="dark"] .user .avatar { background-color: var(--dark-user-bubble); }
+        [data-theme="dark"] .assistant .avatar { background-color: var(--dark-assistant-bubble); }
+
+
+        .message-content {
+            background-color: var(--user-bubble-color);
+            padding: 12px 18px;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+        }
+        .assistant .message-content { background-color: var(--assistant-bubble-color); }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .timestamp {
+            font-size: 11px;
+            color: var(--text-secondary-color);
+        }
+        
+        .copy-btn {
+            background: none; border: none; cursor: pointer;
+            font-size: 14px; color: var(--text-secondary-color);
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        .message:hover .copy-btn { opacity: 1; }
+
+        .message-body {
+            font-size: 16px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .message-body p { margin: 0 0 10px 0; }
+        .message-body p:last-child { margin-bottom: 0; }
+        .message-body a { color: var(--accent-color); }
+        .message-body pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            position: relative;
+        }
+        .message-body pre .copy-code-btn {
+            position: absolute;
+            top: 5px; right: 5px;
+            background-color: #444; color: white;
+            border: none; border-radius: 4px;
+            padding: 3px 8px; cursor: pointer;
+            opacity: 0; transition: opacity 0.2s;
+        }
+        .message-body pre:hover .copy-code-btn { opacity: 1; }
+        
+        .message-body img, .message-body video {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .highlight {
+            background-color: var(--highlight-bg-color);
+            color: var(--highlight-text-color);
+            padding: 1px 2px;
+            border-radius: 3px;
+        }
+        
+        /* --- 懸浮按鈕 --- */
+        .scroll-buttons {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .scroll-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+        .scroll-btn:hover { transform: scale(1.1); }
+        
+        /* --- 響應式設計 --- */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            #sidebar {
+                width: 100%;
+                height: 40vh;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            #main-content { height: 60vh; }
+            #chat-header { flex-wrap: wrap; gap: 10px; }
+            #current-chat-title { width: 100%; order: -1; }
+            .message { max-width: 100%; }
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <h1>聊天記錄 🌸</h1>
+            <div class="upload-container">
+                <input type="file" id="folder-input" webkitdirectory directory multiple>
+                <button id="folder-upload-btn">📂 選擇 ChatGPT 導出的資料夾</button>
+            </div>
+        </div>
+        <div class="sidebar-controls">
+            <input type="text" id="search-input" placeholder="🔍 搜尋對話標題...">
+            <div class="sort-options">
+                <button id="sort-newest" class="active">最新</button>
+                <button id="sort-oldest">最舊</button>
+                <button id="sort-az">A-Z</button>
+            </div>
+        </div>
+        <div id="conversation-list-container">
+            <!-- 對話列表將動態生成於此 -->
+        </div>
+        <div class="sidebar-footer">
+            <div id="status-message">解析完成，找到 0 個會話。</div>
+            <div class="export-options">
+                <button id="select-all-btn">全選</button>
+                <button id="deselect-all-btn">取消全選</button>
+            </div>
+            <button id="export-zip-btn" disabled>導出選中對話為 .zip (txt)</button>
+        </div>
+    </aside>
+
+    <main id="main-content">
+        <div id="chat-header">
+            <div class="chat-header-left">
+                <h2 id="current-chat-title"></h2>
+            </div>
+            <div class="chat-header-right">
+                <div id="content-search-container" style="display: none;">
+                    <input type="text" id="content-search-input" placeholder="搜尋內容...">
+                    <div id="content-search-nav">
+                        <button id="search-prev">◀️</button>
+                        <span id="content-search-matches">0 / 0</span>
+                        <button id="search-next">▶️</button>
+                    </div>
+                </div>
+                <button id="export-txt-btn" style="display: none;">導出 TXT</button>
+                <button id="export-pdf-btn" style="display: none;">導出 PDF</button>
+                <button id="theme-toggle">🌙</button>
+            </div>
+        </div>
+        <div id="chat-container">
+            <div id="welcome-screen">
+                <span class="emoji">👋</span>
+                <h2>歡迎使用聊天記錄查看器</h2>
+                <p>請點擊左上角的按鈕，選擇您從 ChatGPT 導出的資料夾。</p>
+                <p>本工具完全在您的瀏覽器本地運行，您的數據不會被上傳到任何伺服器。</p>
+            </div>
+        </div>
+        <div class="scroll-buttons" style="display: none;">
+            <button id="scroll-top-btn" class="scroll-btn">⬆️</button>
+            <button id="scroll-bottom-btn" class="scroll-btn">⬇️</button>
+        </div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DOM 元素 ---
+        const folderUploadBtn = document.getElementById('folder-upload-btn');
+        const folderInput = document.getElementById('folder-input');
+        const conversationListContainer = document.getElementById('conversation-list-container');
+        const chatContainer = document.getElementById('chat-container');
+        const currentChatTitle = document.getElementById('current-chat-title');
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const searchInput = document.getElementById('search-input');
+        const statusMessage = document.getElementById('status-message');
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        const sortNewestBtn = document.getElementById('sort-newest');
+        const sortOldestBtn = document.getElementById('sort-oldest');
+        const sortAzBtn = document.getElementById('sort-az');
+
+        const selectAllBtn = document.getElementById('select-all-btn');
+        const deselectAllBtn = document.getElementById('deselect-all-btn');
+        const exportZipBtn = document.getElementById('export-zip-btn');
+        const exportTxtBtn = document.getElementById('export-txt-btn');
+        const exportPdfBtn = document.getElementById('export-pdf-btn');
+
+        const contentSearchContainer = document.getElementById('content-search-container');
+        const contentSearchInput = document.getElementById('content-search-input');
+        const searchPrevBtn = document.getElementById('search-prev');
+        const searchNextBtn = document.getElementById('search-next');
+        const searchMatchesSpan = document.getElementById('content-search-matches');
+
+        const scrollTopBtn = document.getElementById('scroll-top-btn');
+        const scrollBottomBtn = document.getElementById('scroll-bottom-btn');
+        const scrollButtonsContainer = document.querySelector('.scroll-buttons');
+
+        // --- 全局變數 ---
+        let allConversations = [];
+        let fileMap = new Map();
+        let currentSort = 'newest';
+        let currentConversationId = null;
+        let searchResults = [];
+        let currentSearchIndex = -1;
+
+        // --- 初始化 ---
+        folderUploadBtn.addEventListener('click', () => folderInput.click());
+        folderInput.addEventListener('change', handleFolderSelect);
+        searchInput.addEventListener('input', filterConversations);
+        themeToggle.addEventListener('click', toggleTheme);
+
+        sortNewestBtn.addEventListener('click', () => setSort('newest'));
+        sortOldestBtn.addEventListener('click', () => setSort('oldest'));
+        sortAzBtn.addEventListener('click', () => setSort('az'));
+
+        selectAllBtn.addEventListener('click', () => toggleAllCheckboxes(true));
+        deselectAllBtn.addEventListener('click', () => toggleAllCheckboxes(false));
+        exportZipBtn.addEventListener('click', exportSelectedToZip);
+        
+        exportTxtBtn.addEventListener('click', exportCurrentChatAsTxt);
+        exportPdfBtn.addEventListener('click', exportCurrentChatAsPdf);
+
+        contentSearchInput.addEventListener('input', handleContentSearch);
+        searchPrevBtn.addEventListener('click', () => navigateSearchResults(-1));
+        searchNextBtn.addEventListener('click', () => navigateSearchResults(1));
+
+        scrollTopBtn.addEventListener('click', () => chatContainer.scrollTo({ top: 0, behavior: 'smooth' }));
+        scrollBottomBtn.addEventListener('click', () => chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' }));
+
+        checkTheme();
+        
+        // --- 核心功能 ---
+
+        /**
+         * 處理資料夾選擇事件
+         * @param {Event} e - 事件對象
+         */
+        async function handleFolderSelect(e) {
+            const files = e.target.files;
+            if (files.length === 0) return;
+
+            const jsonFile = Array.from(files).find(file => file.name === 'conversations.json');
+            if (!jsonFile) {
+                alert('錯誤：在選擇的資料夾中找不到 conversations.json 文件。');
+                return;
+            }
+
+            // 建立文件映射表以便快速查找附件
+            fileMap.clear();
+            for (const file of files) {
+                // 檔案路徑通常是 'folderName/fileName.ext'
+                const pathParts = file.webkitRelativePath.split('/');
+                const fileName = pathParts[pathParts.length - 1];
+                fileMap.set(fileName, file);
+            }
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    allConversations = JSON.parse(event.target.result);
+                    // 為每個對話添加統計數據
+                    allConversations.forEach(convo => {
+                        const stats = calculateStats(convo);
+                        convo.stats = stats;
+                    });
+                    sortAndRenderConversations();
+                    statusMessage.textContent = `解析完成，找到 ${allConversations.length} 個會話。`;
+                    exportZipBtn.disabled = false;
+                } catch (error) {
+                    alert('解析 conversations.json 失敗，請確認文件格式是否正確。');
+                    console.error("JSON parsing error:", error);
+                }
+            };
+            reader.readAsText(jsonFile);
+        }
+
+        /**
+         * 根據當前排序方式排序並渲染對話列表
+         */
+        function sortAndRenderConversations() {
+            let sorted = [...allConversations];
+            if (currentSort === 'newest') {
+                sorted.sort((a, b) => (b.create_time || 0) - (a.create_time || 0));
+            } else if (currentSort === 'oldest') {
+                sorted.sort((a, b) => (a.create_time || 0) - (b.create_time || 0));
+            } else if (currentSort === 'az') {
+                sorted.sort((a, b) => a.title.localeCompare(b.title, 'zh-Hant'));
+            }
+            renderConversationList(sorted);
+        }
+        
+        /**
+         * 渲染對話列表到側邊欄
+         * @param {Array} conversations - 要渲染的對話陣列
+         */
+        function renderConversationList(conversations) {
+            conversationListContainer.innerHTML = '';
+            const filterText = searchInput.value.toLowerCase();
+            const filteredConversations = conversations.filter(convo => 
+                convo.title.toLowerCase().includes(filterText)
+            );
+
+            filteredConversations.forEach(convo => {
+                const item = document.createElement('div');
+                item.className = 'conversation-item';
+                if (convo.id === currentConversationId) {
+                    item.classList.add('active');
+                }
+                item.dataset.id = convo.id;
+
+                const createDate = convo.create_time ? formatTimestamp(convo.create_time) : '未知日期';
+                
+                item.innerHTML = `
+                    <div class="conversation-item-header">
+                        <input type="checkbox" class="conversation-checkbox" data-id="${convo.id}">
+                        <div class="conversation-title" title="${convo.title}">${convo.title}</div>
+                    </div>
+                    <div class="conversation-meta">
+                        <span>${createDate}</span>
+                        <span title="用戶消息 / AI回覆 / 總字數 / Token估算">
+                            ${convo.stats.userMessages}U / ${convo.stats.assistantMessages}A / ${convo.stats.wordCount}字 / ~${convo.stats.tokenEstimate}T
+                        </span>
+                    </div>
+                `;
+                item.addEventListener('click', (e) => {
+                    if (e.target.type === 'checkbox') return;
+                    displayConversation(convo.id);
+                });
+                conversationListContainer.appendChild(item);
+            });
+        }
+
+        /**
+         * 顯示指定ID的對話內容
+         * @param {string} id - 對話ID
+         */
+        async function displayConversation(id) {
+            currentConversationId = id;
+            const conversation = allConversations.find(c => c.id === id);
+            if (!conversation) return;
+
+            // 更新側邊欄活動狀態
+            document.querySelectorAll('.conversation-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.id === id);
+            });
+
+            welcomeScreen.style.display = 'none';
+            chatContainer.innerHTML = '';
+            currentChatTitle.textContent = conversation.title;
+            currentChatTitle.title = conversation.title;
+            
+            // 顯示聊天特定按鈕
+            exportTxtBtn.style.display = 'inline-block';
+            exportPdfBtn.style.display = 'inline-block';
+            contentSearchContainer.style.display = 'flex';
+            scrollButtonsContainer.style.display = 'flex';
+
+            const messages = Object.values(conversation.mapping || {}).filter(m => m.message);
+
+            for (const node of messages) {
+                const messageData = node.message;
+                const role = messageData.author.role;
+                const content = messageData.content;
+
+                if ((role === 'user' || role === 'assistant') && content && content.parts && content.parts.some(p => typeof p === 'string' && p.trim() !== '')) {
+                    const messageEl = document.createElement('div');
+                    messageEl.className = `message ${role}`;
+                    
+                    const avatar = role === 'user' ? '🧑‍💻' : '🌸';
+                    let messageHTML = `<div class="avatar">${avatar}</div><div class="message-content">`;
+                    
+                    messageHTML += `
+                        <div class="message-header">
+                            <span class="timestamp">${formatTimestamp(messageData.create_time)}</span>
+                            <button class="copy-btn" title="複製訊息">📋</button>
+                        </div>
+                        <div class="message-body">
+                    `;
+                    
+                    // 處理附件
+                    if (role === 'user' && messageData.metadata && messageData.metadata.attachments) {
+                        for (const attachment of messageData.metadata.attachments) {
+                            const fileName = `${attachment.id}-${attachment.name}`;
+                            const file = fileMap.get(fileName);
+                            if (file) {
+                                const url = URL.createObjectURL(file);
+                                if (file.type.startsWith('image/')) {
+                                    messageHTML += `<img src="${url}" alt="${attachment.name}">`;
+                                } else if (file.type.startsWith('video/')) {
+                                    messageHTML += `<video src="${url}" controls></video>`;
+                                } else {
+                                    messageHTML += `<p><a href="${url}" download="${attachment.name}">📎 下載附件: ${attachment.name}</a></p>`;
+                                }
+                            }
+                        }
+                    }
+
+                    // 處理文字內容
+                    const textContent = content.parts.filter(p => typeof p === 'string').join('');
+                    if (textContent) {
+                        messageHTML += marked.parse(textContent);
+                    }
+
+                    messageHTML += '</div></div>';
+                    messageEl.innerHTML = messageHTML;
+                    chatContainer.appendChild(messageEl);
+                    
+                    // 添加複製按鈕事件
+                    messageEl.querySelector('.copy-btn').addEventListener('click', () => {
+                        const textToCopy = content.parts.filter(p => typeof p === 'string').join('');
+                        navigator.clipboard.writeText(textToCopy).then(() => {
+                            alert('訊息已複製！');
+                        });
+                    });
+                }
+            }
+            
+            // 程式碼高亮
+            chatContainer.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+                // 添加程式碼複製按鈕
+                const pre = block.parentElement;
+                const copyCodeBtn = document.createElement('button');
+                copyCodeBtn.className = 'copy-code-btn';
+                copyCodeBtn.innerText = '複製';
+                copyCodeBtn.title = '複製程式碼';
+                pre.appendChild(copyCodeBtn);
+                copyCodeBtn.addEventListener('click', () => {
+                    navigator.clipboard.writeText(block.innerText).then(() => {
+                        copyCodeBtn.innerText = '已複製!';
+                        setTimeout(() => { copyCodeBtn.innerText = '複製'; }, 2000);
+                    });
+                });
+            });
+
+            // 重置內容搜尋
+            contentSearchInput.value = '';
+            handleContentSearch();
+        }
+
+        // --- 輔助功能 ---
+
+        /**
+         * 格式化時間戳
+         * @param {number} unixTimestamp - Unix 時間戳
+         * @returns {string} 格式化後的日期時間字串
+         */
+        function formatTimestamp(unixTimestamp) {
+            if (!unixTimestamp) return '';
+            const date = new Date(unixTimestamp * 1000);
+            return date.toLocaleString('sv-SE'); // YYYY-MM-DD HH:MM:SS
+        }
+        
+        /**
+         * 計算對話統計數據
+         * @param {object} conversation - 對話物件
+         * @returns {object} 包含統計數據的物件
+         */
+        function calculateStats(conversation) {
+            let userMessages = 0;
+            let assistantMessages = 0;
+            let wordCount = 0;
+            
+            Object.values(conversation.mapping || {}).forEach(node => {
+                if (node.message) {
+                    const role = node.message.author.role;
+                    const content = node.message.content.parts?.filter(p => typeof p === 'string').join('') || '';
+                    if (content.trim() === '') return;
+
+                    if (role === 'user') userMessages++;
+                    if (role === 'assistant') assistantMessages++;
+                    
+                    wordCount += content.split(/\s+/).length;
+                }
+            });
+            
+            // Token 估算：一個簡單的啟發式方法，中文一個字約 1.5-2 token，英文 1 token 約 4 字元
+            // 這裡採用一個綜合的估算
+            const tokenEstimate = Math.round(wordCount * 1.5);
+
+            return { userMessages, assistantMessages, wordCount, tokenEstimate };
+        }
+
+        /**
+         * 設置排序方式
+         * @param {string} type - 排序類型 ('newest', 'oldest', 'az')
+         */
+        function setSort(type) {
+            currentSort = type;
+            [sortNewestBtn, sortOldestBtn, sortAzBtn].forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`sort-${type}`).classList.add('active');
+            sortAndRenderConversations();
+        }
+
+        /**
+         * 根據輸入過濾對話列表
+         */
+        function filterConversations() {
+            sortAndRenderConversations();
+        }
+
+        /**
+         * 切換主題
+         */
+        function toggleTheme() {
+            const currentTheme = document.body.dataset.theme;
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.body.dataset.theme = newTheme;
+            themeToggle.textContent = newTheme === 'light' ? '🌙' : '☀️';
+            localStorage.setItem('chat-viewer-theme', newTheme);
+        }
+        
+        /**
+         * 檢查本地存儲的主題
+         */
+        function checkTheme() {
+            const savedTheme = localStorage.getItem('chat-viewer-theme') || 'light';
+            document.body.dataset.theme = savedTheme;
+            themeToggle.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+        }
+
+        /**
+         * 切換所有複選框的選中狀態
+         * @param {boolean} checked - 是否選中
+         */
+        function toggleAllCheckboxes(checked) {
+            document.querySelectorAll('.conversation-checkbox').forEach(cb => {
+                cb.checked = checked;
+            });
+        }
+        
+        // --- 匯出功能 ---
+
+        /**
+         * 將選中的對話匯出為 ZIP 檔案
+         */
+        function exportSelectedToZip() {
+            const selectedIds = Array.from(document.querySelectorAll('.conversation-checkbox:checked'))
+                .map(cb => cb.dataset.id);
+
+            if (selectedIds.length === 0) {
+                alert('請至少選擇一個對話進行匯出。');
+                return;
+            }
+
+            const zip = new JSZip();
+            selectedIds.forEach(id => {
+                const conversation = allConversations.find(c => c.id === id);
+                if (conversation) {
+                    const txtContent = conversationToText(conversation);
+                    // 清理檔名中的非法字元
+                    const safeTitle = conversation.title.replace(/[\/\\?%*:|"<>]/g, '-') || 'untitled';
+                    zip.file(`${safeTitle}.txt`, txtContent);
+                }
+            });
+
+            zip.generateAsync({ type: 'blob' }).then(content => {
+                saveAs(content, 'ChatGPT-Export.zip');
+            });
+        }
+        
+        /**
+         * 將當前對話匯出為 TXT
+         */
+        function exportCurrentChatAsTxt() {
+            if (!currentConversationId) return;
+            const conversation = allConversations.find(c => c.id === currentConversationId);
+            const txtContent = conversationToText(conversation);
+            const safeTitle = conversation.title.replace(/[\/\\?%*:|"<>]/g, '-') || 'untitled';
+            const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
+            saveAs(blob, `${safeTitle}.txt`);
+        }
+        
+        /**
+         * 將當前對話匯出為 PDF
+         */
+        async function exportCurrentChatAsPdf() {
+            if (!currentConversationId) return;
+            const conversation = allConversations.find(c => c.id === currentConversationId);
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const safeTitle = conversation.title.replace(/[\/\\?%*:|"<>]/g, '-') || 'untitled';
+
+            // 為了確保所有內容（特別是圖片）都已載入，我們需要一個好的策略
+            // html2canvas 可以處理這個問題
+            const chatContentEl = document.getElementById('chat-container');
+            alert('正在生成 PDF，請稍候... 長對話可能需要一些時間。');
+            
+            try {
+                const canvas = await html2canvas(chatContentEl, {
+                    scale: 2, // 提高解析度
+                    useCORS: true,
+                    windowWidth: chatContentEl.scrollWidth,
+                    windowHeight: chatContentEl.scrollHeight
+                });
+                
+                const imgData = canvas.toDataURL('image/png');
+                const imgProps = doc.getImageProperties(imgData);
+                const pdfWidth = doc.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                let heightLeft = pdfHeight;
+                let position = 0;
+
+                doc.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+                heightLeft -= doc.internal.pageSize.getHeight();
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - pdfHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+                    heightLeft -= doc.internal.pageSize.getHeight();
+                }
+                doc.save(`${safeTitle}.pdf`);
+
+            } catch (error) {
+                console.error("PDF generation error:", error);
+                alert('生成 PDF 時發生錯誤，請查看控制台日誌。');
+            }
+        }
+        
+        /**
+         * 將對話物件轉換為純文字格式
+         * @param {object} conversation - 對話物件
+         * @returns {string} 純文字內容
+         */
+        function conversationToText(conversation) {
+            let text = `標題: ${conversation.title}\n`;
+            text += `創建時間: ${formatTimestamp(conversation.create_time)}\n`;
+            text += "========================================\n\n";
+
+            const messages = Object.values(conversation.mapping || {}).filter(m => m.message);
+            messages.forEach(node => {
+                const messageData = node.message;
+                const role = messageData.author.role;
+                const content = messageData.content;
+                
+                if ((role === 'user' || role === 'assistant') && content && content.parts && content.parts.some(p => typeof p === 'string' && p.trim() !== '')) {
+                    const timestamp = formatTimestamp(messageData.create_time);
+                    const author = role === 'user' ? '用戶' : 'AI助理';
+                    const textContent = content.parts.filter(p => typeof p === 'string').join('\n');
+                    
+                    text += `[${timestamp}] ${author}:\n`;
+                    text += `${textContent}\n\n`;
+                }
+            });
+            return text;
+        }
+        
+        // --- 內容搜尋功能 ---
+
+        function handleContentSearch() {
+            const query = contentSearchInput.value.trim().toLowerCase();
+            // 清除之前的高亮
+            chatContainer.innerHTML = chatContainer.innerHTML.replace(/<span class="highlight">/g, '').replace(/<\/span>/g, '');
+            
+            if (query === '') {
+                searchResults = [];
+                currentSearchIndex = -1;
+                updateSearchNav();
+                return;
+            }
+
+            const regex = new RegExp(escapeRegExp(query), 'gi');
+            const walker = document.createTreeWalker(chatContainer, NodeFilter.SHOW_TEXT, null, false);
+            let node;
+            let textNodes = [];
+            while(node = walker.nextNode()) {
+                if (node.parentElement.tagName !== 'SCRIPT' && node.parentElement.tagName !== 'STYLE') {
+                    if (regex.test(node.nodeValue)) {
+                        textNodes.push(node);
+                    }
+                }
+            }
+
+            searchResults = [];
+            textNodes.forEach(textNode => {
+                const matches = textNode.nodeValue.match(regex);
+                if (matches) {
+                    const newNodeValue = textNode.nodeValue.replace(regex, (match) => `<span class="highlight">${match}</span>`);
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = newNodeValue;
+                    
+                    const parent = textNode.parentNode;
+                    while (tempDiv.firstChild) {
+                        parent.insertBefore(tempDiv.firstChild, textNode);
+                    }
+                    parent.removeChild(textNode);
+                }
+            });
+            
+            searchResults = Array.from(chatContainer.querySelectorAll('.highlight'));
+            currentSearchIndex = searchResults.length > 0 ? 0 : -1;
+            updateSearchNav();
+            if (currentSearchIndex !== -1) {
+                navigateToCurrentMatch();
+            }
+        }
+        
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        function updateSearchNav() {
+            const total = searchResults.length;
+            const current = total > 0 ? currentSearchIndex + 1 : 0;
+            searchMatchesSpan.textContent = `${current} / ${total}`;
+            searchPrevBtn.disabled = current <= 1;
+            searchNextBtn.disabled = current === total;
+        }
+
+        function navigateSearchResults(direction) {
+            if (searchResults.length === 0) return;
+            currentSearchIndex += direction;
+            if (currentSearchIndex < 0) currentSearchIndex = 0;
+            if (currentSearchIndex >= searchResults.length) currentSearchIndex = searchResults.length - 1;
+            
+            navigateToCurrentMatch();
+            updateSearchNav();
+        }
+
+        function navigateToCurrentMatch() {
+            searchResults.forEach(el => el.style.backgroundColor = ''); // Reset previous
+            const currentMatch = searchResults[currentSearchIndex];
+            if (currentMatch) {
+                currentMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                currentMatch.style.backgroundColor = 'var(--accent-color)'; // Temporarily highlight current match more
+            }
+        }
+
+    });
+    </script>
+</body>
+</html>
